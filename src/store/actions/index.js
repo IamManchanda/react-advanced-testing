@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import { 
   HANDLE_SAVE_COMMENT,
-  HANDLE_FETCH_COMMENTS, 
+  HANDLE_FETCH_COMMENTS,
+  HANDLE_CHANGE_AUTH,
 } from 'store/actions/types';
 
 export const handleSaveComment = (comment) => ({
@@ -17,3 +18,8 @@ export const handleFetchComments = async () => {
     payload: { response },
   };
 };
+
+export const handleChangeAuth = (isLoggedIn) => ({
+  type: HANDLE_CHANGE_AUTH,
+  payload: { isLoggedIn },
+});

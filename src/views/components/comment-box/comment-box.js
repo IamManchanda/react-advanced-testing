@@ -20,12 +20,25 @@ const CommentBox = class extends Component {
     this.setState({ comment: '' });
   };
 
+  handleNotAuthUser = () => {
+    const { auth, history } = this.props;
+    if (!auth) history.push('/');
+  }
+
+  componentDidMount() {
+    this.handleNotAuthUser();
+  }
+
+  componentDidUpdate() {
+    this.handleNotAuthUser();
+  }
+
   render() {
     const { comment } = this.state;
     const { handleFetchComments } = this.props;
     return (
       <form onSubmit={ this.handleSubmit }>
-        <h4>Your Comment</h4>
+        <h4>Post your Comment</h4>
         <textarea
           value={ comment }
           onChange={ this.handleChange }
@@ -48,11 +61,12 @@ const CommentBox = class extends Component {
 };
 
 CommentBox.defaultProps = {
+  auth: false,
   handleSaveComment: () => {},
   handleFetchComments: () => {},
 };
 
 export default connect(
-  null, 
+  ({ auth }) => ({ auth }), 
   { handleSaveComment, handleFetchComments },
 )(CommentBox);
