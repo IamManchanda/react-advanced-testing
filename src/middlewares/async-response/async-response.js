@@ -1,6 +1,6 @@
 const asyncResponse = ({ dispatch }) => {
   return function asyncWithNextResponse(next) {
-    return async function asyncWithResponseAction(pendingAction) {
+    return async function asyncWithPendingAction(pendingAction) {
       const action = await pendingAction;
       if (!action.payload || !action.payload.response || !action.payload.response.then) {
         return next(action);
