@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import withAuth from 'views/hoc/withAuth.js';
 
 import { handleSaveComment, handleFetchComments } from 'store/actions';
 
@@ -19,19 +20,6 @@ const CommentBox = class extends Component {
     handleSaveComment(comment);
     this.setState({ comment: '' });
   };
-
-  handleNotAuthUser = () => {
-    const { auth, history } = this.props;
-    if (!auth) history.push('/');
-  }
-
-  componentDidMount() {
-    this.handleNotAuthUser();
-  }
-
-  componentDidUpdate() {
-    this.handleNotAuthUser();
-  }
 
   render() {
     const { comment } = this.state;
@@ -66,7 +54,9 @@ CommentBox.defaultProps = {
   handleFetchComments: () => {},
 };
 
+const CommentBoxWithAuth = withAuth(CommentBox);
+
 export default connect(
-  ({ auth }) => ({ auth }), 
+  null, 
   { handleSaveComment, handleFetchComments },
-)(CommentBox);
+)(CommentBoxWithAuth);
