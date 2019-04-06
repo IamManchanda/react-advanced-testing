@@ -1,55 +1,46 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import withAuth from 'views/hoc/withAuth.js';
 
 import { handleSaveComment, handleFetchComments } from 'store/actions';
 
-const CommentBox = class extends Component {
-  state = {
-    comment: '',
+const CommentBox = ({ handleSaveComment, handleFetchComments }) => {
+  const [comment, setComment] = useState('');
+
+  const handleChange = (event) => {
+    setComment(event.target.value);
   };
 
-  handleChange = (event) => {
-    this.setState({ comment: event.target.value });
-  };
-
-  handleSubmit = (event) => {
-    const { comment } = this.state;
-    const { handleSaveComment } = this.props;
+  const handleSubmit = (event) => {
     event.preventDefault();
     handleSaveComment(comment);
-    this.setState({ comment: '' });
+    setComment('');
   };
 
-  render() {
-    const { comment } = this.state;
-    const { handleFetchComments } = this.props;
-    return (
-      <form onSubmit={ this.handleSubmit }>
-        <h4>Post your Comment</h4>
-        <textarea
-          value={ comment }
-          onChange={ this.handleChange }
-          placeholder="Add a Comment" 
-        />
-        <button
-          type="submit"
-          className="button primary radius bordered shadow"
-          id="save-comments">
-          Submit Comment
-        </button>
-        <button
-          type="button"
-          className="button primary radius bordered shadow"
-          id="fetch-comments" 
-          onClick={ handleFetchComments }>Fetch Comments</button>
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={ handleSubmit }>
+      <h4>Post your Comment</h4>
+      <textarea
+        value={ comment }
+        onChange={ handleChange }
+        placeholder="Add a Comment" 
+      />
+      <button
+        type="submit"
+        className="button primary radius bordered shadow"
+        id="save-comments">
+        Submit Comment
+      </button>
+      <button
+        type="button"
+        className="button primary radius bordered shadow"
+        id="fetch-comments" 
+        onClick={ handleFetchComments }>Fetch Comments</button>
+    </form>
+  );
 };
 
 CommentBox.defaultProps = {
-  auth: false,
   handleSaveComment: () => {},
   handleFetchComments: () => {},
 };
